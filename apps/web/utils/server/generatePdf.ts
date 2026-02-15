@@ -1,21 +1,23 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-// Server-side chart generation using node-canvas
+// Server-side chart generation using @napi-rs/canvas
 function createServerSideChart(chartData: any): string {
   try {
     console.log("Creating server-side chart...");
 
-    // Try to import canvas for Node.js
-    let Canvas: any;
+    // Try to import @napi-rs/canvas for Node.js
+    let createCanvas: any;
     try {
-      Canvas = require("canvas");
+      createCanvas = require("@napi-rs/canvas").createCanvas;
     } catch (e) {
-      throw new Error("canvas package not installed. Run: npm install canvas");
+      throw new Error(
+        "@napi-rs/canvas package not installed. Run: pnpm install @napi-rs/canvas",
+      );
     }
 
     // Create canvas
-    const canvas = Canvas.createCanvas(600, 400);
+    const canvas = createCanvas(600, 400);
     const ctx = canvas.getContext("2d");
 
     // White background
@@ -45,7 +47,7 @@ function createServerSideChart(chartData: any): string {
     // Convert to base64
     const imageBuffer = canvas.toBuffer("image/png");
     const imageBase64 = `data:image/png;base64,${imageBuffer.toString(
-      "base64"
+      "base64",
     )}`;
 
     console.log("Server-side chart created successfully");
@@ -60,7 +62,7 @@ function drawServerPieChart(
   ctx: any,
   data: any[],
   width: number,
-  height: number
+  height: number,
 ) {
   const centerX = width * 0.3;
   const centerY = height * 0.5;
@@ -142,7 +144,7 @@ function drawServerBarChart(
   ctx: any,
   data: any[],
   width: number,
-  height: number
+  height: number,
 ) {
   const margin = { top: 50, right: 50, bottom: 100, left: 80 };
   const chartWidth = width - margin.left - margin.right;
@@ -222,7 +224,7 @@ function drawServerBarChart(
     ctx.fillText(
       item.label.length > 10 ? item.label.substring(0, 10) + "..." : item.label,
       0,
-      0
+      0,
     );
     ctx.restore();
   });
@@ -282,7 +284,7 @@ export async function generatePDFBuffer({
   const rows = table?.data?.rows || [];
 
   const sanitizedRows = rows.map((row: any) =>
-    row.map((cell: any) => String(cell || ""))
+    row.map((cell: any) => String(cell || "")),
   );
 
   // Use landscape for wide tables
@@ -316,7 +318,7 @@ export async function generatePDFBuffer({
     },
     headStyles: { fillColor: [230, 230, 230] },
     columnStyles: Object.fromEntries(
-      headers.map((h, i) => [i, { cellWidth: "auto", minCellWidth: 30 }])
+      headers.map((h, i) => [i, { cellWidth: "auto", minCellWidth: 30 }]),
     ),
   });
 
@@ -388,7 +390,7 @@ export async function generatePDFBuffer({
         doc.text(
           "Note: Install 'canvas' package for chart images: npm install canvas",
           20,
-          y
+          y,
         );
         y += 8;
         doc.setTextColor(0, 0, 0);
