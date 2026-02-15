@@ -3,6 +3,8 @@ import React from "react";
 import Notifications from "./_components/Notifications";
 import { getNotifications } from "./lib/queries";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Notifications",
 };
