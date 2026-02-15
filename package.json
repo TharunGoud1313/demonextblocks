@@ -17,6 +17,11 @@
     "turbo": "^2.5.6",
     "typescript": "5.9.2"
   },
+  "pnpm": {
+    "overrides": {
+      "canvas": "npm:@napi-rs/canvas@^0.1.65"
+    }
+  },
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
