@@ -10,7 +10,7 @@ export async function GET() {
     }
 
     const { data: pages_list, error } = await postgrest
-      .from("page_list")
+      .from("temp1_page_list")
       .select("pagelist_id, page_name, page_link, role_json");
 
     if (error) throw error;

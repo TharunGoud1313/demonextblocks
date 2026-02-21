@@ -6139,6 +6139,36 @@ export type Database = {
         };
         Relationships: [];
       };
+      temp1_page_list: {
+        Row: {
+          id: number;
+          status: string | null;
+          page_name: string | null;
+          page_url: string | null;
+          page_link: string | null;
+          app_name: string | null;
+          role_json: Json | null;
+        };
+        Insert: {
+          id: number;
+          status: string | null;
+          page_name: string | null;
+          page_url: string | null;
+          page_link: string | null;
+          app_name: string | null;
+          role_json: Json | null;
+        };
+        Update: {
+          id: number;
+          status: string | null;
+          page_name: string | null;
+          page_url: string | null;
+          page_link: string | null;
+          app_name: string | null;
+          role_json: Json | null;
+        };
+        Relationships: [];
+      };
       product: {
         Row: {
           accounts_json: Json | null;

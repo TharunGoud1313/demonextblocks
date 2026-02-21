@@ -14,8 +14,7 @@ export default async function RoleMenu() {
   const session = await auth();
 
   if (!session) return <div>Not authenticated</div>;
-  const { data: pages_list } = await postgrest.from("page_list").select("*");
-
+  const { data: pages_list } = await postgrest.from("temp1_page_list").select("*");
   return (
     <div className="bg-background">
       <Main fixed>

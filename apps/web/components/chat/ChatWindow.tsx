@@ -145,7 +145,7 @@ export function StickyToBottomContent(props: {
   );
 }
 
-export function ChatWindow(props: {
+export function   ChatWindow(props: {
   endpoint: string;
   placeholder?: string;
   emoji?: string;
