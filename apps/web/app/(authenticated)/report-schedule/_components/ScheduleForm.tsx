@@ -117,7 +117,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
 
   const selectedUsers = useMemo(
     () => selectedUsersRaw || [],
-    [selectedUsersRaw]
+    [selectedUsersRaw],
   );
 
   // State for user search
@@ -199,7 +199,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
         setFoundUsers([]);
       }
     },
-    [selectedUsers]
+    [selectedUsers],
   );
 
   // Reset schedule fields when scheduling is disabled
@@ -243,7 +243,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
     const currentUsers = getValues("target_user_ids") || [];
     setValue(
       "target_user_ids",
-      currentUsers.filter((u: User) => u.user_catalog_id !== userId)
+      currentUsers.filter((u: User) => u.user_catalog_id !== userId),
     );
   };
 
@@ -254,7 +254,11 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
         name="is_scheduled"
         render={({ field }) => (
           <FormItem className="flex flex-row items-center mt-6 border-t border-border pt-6 space-x-3 space-y-0">
-            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+            <Checkbox
+              checked={field.value}
+              onCheckedChange={field.onChange}
+              data-testid="schedule-checkbox"
+            />
             <FormLabel
               className="cursor-pointer"
               onClick={() => field.onChange(!field.value)}
@@ -268,7 +272,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
   }
 
   return (
-    <Card className="mt-6">
+    <Card className="mt-6" data-testid="schedule-config-card">
       <CardHeader>
         <CardTitle>Schedule Configuration</CardTitle>
       </CardHeader>
@@ -281,6 +285,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
               <Checkbox
                 checked={field.value}
                 onCheckedChange={field.onChange}
+                data-testid="enable-schedule-checkbox"
               />
               <FormLabel
                 className="cursor-pointer"
@@ -299,7 +304,10 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Frequency</FormLabel>
-              <div className="flex flex-wrap gap-2">
+              <div
+                className="flex flex-wrap gap-2"
+                data-testid="frequency-buttons"
+              >
                 {frequencies.map((f) => (
                   <Button
                     key={f}
@@ -308,6 +316,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                     size="sm"
                     onClick={() => field.onChange(f)}
                     className="capitalize"
+                    data-testid={`frequency-${f}`}
                   >
                     {f.replace("_", " ")}
                   </Button>
@@ -326,7 +335,12 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Execution Time (HH:MM)</FormLabel>
-                <Input {...field} placeholder="09:00" maxLength={5} />
+                <Input
+                  {...field}
+                  placeholder="09:00"
+                  maxLength={5}
+                  data-testid="schedule-time-input"
+                />
                 <FormMessage />
               </FormItem>
             )}
@@ -346,6 +360,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                   <input
                     className="border w-full p-2.5 rounded-lg"
                     type="date"
+                    data-testid="start-date-input"
                     {...field}
                   />
                   {/* <Popover>
@@ -390,6 +405,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                   <input
                     className="border w-full p-2.5 rounded-lg"
                     type="date"
+                    data-testid="end-date-input"
                     {...field}
                   />
                   {/* <Popover>
@@ -434,7 +450,10 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Select Days of the Week</FormLabel>
-                <div className="flex flex-wrap gap-2">
+                <div
+                  className="flex flex-wrap gap-2"
+                  data-testid="weekday-buttons"
+                >
                   {weekdays.map((day) => {
                     const isSelected = field.value?.includes(day);
                     return (
@@ -450,6 +469,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                           field.onChange(newValue);
                         }}
                         className="capitalize"
+                        data-testid={`weekday-${day}`}
                       >
                         {day}
                       </Button>
@@ -480,6 +500,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                       field.onChange(parseInt(e.target.value, 10) || 1)
                     }
                     placeholder="1-31"
+                    data-testid="day-of-month-input"
                   />
                   <FormMessage />
                 </FormItem>
@@ -532,7 +553,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
 
         {/* Yearly Selection */}
         {frequency === "yearly" && (
-          <div className="space-y-4">
+          <div className="space-y-4" data-testid="yearly-selection">
             <FormField
               control={control}
               name="selected_year"
@@ -544,10 +565,12 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                     value={field.value?.toString() || ""}
                     onChange={(e) =>
                       field.onChange(
-                        parseInt(e.target.value, 10) || new Date().getFullYear()
+                        parseInt(e.target.value, 10) ||
+                          new Date().getFullYear(),
                       )
                     }
                     placeholder="e.g., 2025"
+                    data-testid="selected-year-input"
                   />
                   <FormMessage />
                 </FormItem>
@@ -569,6 +592,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                         field.onChange(parseInt(e.target.value, 10) || 1)
                       }
                       placeholder="1-12"
+                      data-testid="selected-month-input"
                     />
                     <FormMessage />
                   </FormItem>
@@ -589,6 +613,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                         field.onChange(parseInt(e.target.value, 10) || 1)
                       }
                       placeholder="1-31"
+                      data-testid="selected-day-input"
                     />
                     <FormMessage />
                   </FormItem>
@@ -611,14 +636,16 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                     className="border w-full p-2.5 rounded-lg"
                     type="date"
                     id="specific-date-input"
+                    data-testid="specific-date-input"
                     placeholder="Select a date"
                   />
                   <Button
                     type="button"
                     variant="outline"
+                    data-testid="add-specific-date-btn"
                     onClick={() => {
                       const input = document.getElementById(
-                        "specific-date-input"
+                        "specific-date-input",
                       ) as HTMLInputElement;
                       if (input?.value) {
                         const newDates = [...(field.value || []), input.value];
@@ -643,7 +670,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                         size="sm"
                         onClick={() => {
                           const newDates = field.value?.filter(
-                            (_: string, i: number) => i !== index
+                            (_: string, i: number) => i !== index,
                           );
                           field.onChange(newDates);
                         }}
@@ -666,7 +693,10 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Timezone</FormLabel>
-              <div className="flex flex-wrap gap-2">
+              <div
+                className="flex flex-wrap gap-2"
+                data-testid="timezone-buttons"
+              >
                 {commonTimezones.map((tz) => (
                   <Button
                     key={tz}
@@ -674,6 +704,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                     variant={field.value === tz ? "default" : "outline"}
                     size="sm"
                     onClick={() => field.onChange(tz)}
+                    data-testid={`timezone-${tz.replace("/", "-").toLowerCase()}`}
                   >
                     {tz.split("/")[1]?.replace("_", " ") || tz}
                   </Button>
@@ -699,7 +730,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-semibold">Delivery Options</FormLabel>
-              <div className="space-y-3">
+              <div className="space-y-3" data-testid="delivery-options">
                 {deliveryOptions.map((option) => (
                   <div key={option.id} className="flex items-center space-x-2">
                     <Checkbox
@@ -707,6 +738,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                       onCheckedChange={(checked) =>
                         field.onChange({ ...field.value, [option.id]: checked })
                       }
+                      data-testid={`delivery-${option.id}`}
                     />
                     <Label
                       className="cursor-pointer"
@@ -738,6 +770,7 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
+                  data-testid="target-all-users-checkbox"
                 />
                 <FormLabel
                   className="cursor-pointer"

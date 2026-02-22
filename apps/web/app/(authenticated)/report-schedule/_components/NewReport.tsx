@@ -62,7 +62,7 @@ const NewReport = ({ id }: { id?: number }) => {
             first_name: z.string(),
             last_name: z.string().nullable(),
             user_email: z.string().nullable(),
-          })
+          }),
         )
         .optional(),
     })
@@ -118,7 +118,7 @@ const NewReport = ({ id }: { id?: number }) => {
       {
         message: "Please fill in all required schedule fields",
         path: ["is_scheduled"],
-      }
+      },
     );
 
   const form = useForm<z.infer<typeof newPrompt>>({
@@ -165,7 +165,7 @@ const NewReport = ({ id }: { id?: number }) => {
             form.setValue("frequency", promptData?.frequency || "daily");
             form.setValue(
               "schedule_time",
-              promptData?.schedule_time || "09:00"
+              promptData?.schedule_time || "09:00",
             );
             form.setValue("timezone", promptData?.timezone || "UTC");
             form.setValue("start_date", promptData?.start_date || "");
@@ -181,7 +181,7 @@ const NewReport = ({ id }: { id?: number }) => {
                     typeof selectedWeekdays === "object" &&
                     selectedWeekdays.length !== undefined
                   ? Object.values(selectedWeekdays).filter((v) => v !== null)
-                  : []
+                  : [],
             );
 
             form.setValue("day_of_month", promptData?.day_of_month || 1);
@@ -189,7 +189,7 @@ const NewReport = ({ id }: { id?: number }) => {
             form.setValue("end_month", promptData?.end_month || 12);
             form.setValue(
               "selected_year",
-              promptData?.selected_year || new Date().getFullYear()
+              promptData?.selected_year || new Date().getFullYear(),
             );
             form.setValue("selected_month", promptData?.selected_month || 1);
             form.setValue("selected_day", promptData?.selected_day || 1);
@@ -204,7 +204,7 @@ const NewReport = ({ id }: { id?: number }) => {
                     typeof specificDates === "object" &&
                     specificDates.length !== undefined
                   ? Object.values(specificDates).filter((v) => v !== null)
-                  : []
+                  : [],
             );
 
             // Handle delivery options JSONB
@@ -215,12 +215,12 @@ const NewReport = ({ id }: { id?: number }) => {
                 typeof deliveryOptions === "object" &&
                 !Array.isArray(deliveryOptions)
                 ? deliveryOptions
-                : {}
+                : {},
             );
 
             form.setValue(
               "target_all_users",
-              promptData?.target_all_users ?? true
+              promptData?.target_all_users ?? true,
             );
 
             // Handle target user IDs JSONB
@@ -233,7 +233,7 @@ const NewReport = ({ id }: { id?: number }) => {
                     typeof targetUserIds === "object" &&
                     targetUserIds.length !== undefined
                   ? Object.values(targetUserIds).filter((v) => v !== null)
-                  : []
+                  : [],
             );
           }
         }
@@ -254,11 +254,11 @@ const NewReport = ({ id }: { id?: number }) => {
         console.error("Validation errors:", validationResult.error.errors);
         validationResult.error.errors.forEach((error) => {
           console.error(
-            `Field: ${error.path.join(".")}, Message: ${error.message}`
+            `Field: ${error.path.join(".")}, Message: ${error.message}`,
           );
         });
         toast.error(
-          "Please check the form for errors. See console for details."
+          "Please check the form for errors. See console for details.",
         );
         return;
       }
@@ -286,7 +286,7 @@ const NewReport = ({ id }: { id?: number }) => {
       console.log("response----", response);
       if (response.success) {
         toast.success(
-          id ? "Prompt updated successfully" : "Prompt created successfully"
+          id ? "Prompt updated successfully" : "Prompt created successfully",
         );
         if (!id) {
           form.reset();
@@ -297,7 +297,7 @@ const NewReport = ({ id }: { id?: number }) => {
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error(
-        `There was an error saving the prompt: ${error instanceof Error ? error.message : "Unknown error"}`
+        `There was an error saving the prompt: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
     } finally {
       setIsLoading(false);
@@ -324,14 +324,18 @@ const NewReport = ({ id }: { id?: number }) => {
             </Link>
           </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-3"
+              data-testid="report-form"
+            >
               <FormField
                 name="title"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Title</FormLabel>
-                    <Input {...field} />
+                    <Input {...field} data-testid="report-title-input" />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -342,7 +346,11 @@ const NewReport = ({ id }: { id?: number }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Description / Prompt Text</FormLabel>
-                    <Textarea {...field} className="min-w-[500px]" />
+                    <Textarea
+                      {...field}
+                      className="min-w-[500px]"
+                      data-testid="report-description-input"
+                    />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -358,12 +366,19 @@ const NewReport = ({ id }: { id?: number }) => {
                       value={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger data-testid="report-status-trigger">
                         <SelectValue placeholder="Select a status" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="inactive">Inactive</SelectItem>
+                        <SelectItem value="active" data-testid="status-active">
+                          Active
+                        </SelectItem>
+                        <SelectItem
+                          value="inactive"
+                          data-testid="status-inactive"
+                        >
+                          Inactive
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </FormItem>
@@ -375,7 +390,11 @@ const NewReport = ({ id }: { id?: number }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Remarks</FormLabel>
-                    <Textarea {...field} className="min-w-[500px]" />
+                    <Textarea
+                      {...field}
+                      className="min-w-[500px]"
+                      data-testid="report-remarks-input"
+                    />
                   </FormItem>
                 )}
               />
@@ -408,12 +427,15 @@ const NewReport = ({ id }: { id?: number }) => {
         </CardContent>
         <CardFooter>
           <div className="flex justify-end gap-2.5 w-full">
-            <Button variant={"outline"}>Cancel</Button>
+            <Button variant={"outline"} data-testid="cancel-btn">
+              Cancel
+            </Button>
 
             {id ? (
               <Button
                 disabled={isLoading}
                 onClick={form.handleSubmit(onSubmit)}
+                data-testid="save-changes-btn"
               >
                 {isLoading ? "Saving..." : "Save Changes"}
               </Button>
@@ -421,6 +443,7 @@ const NewReport = ({ id }: { id?: number }) => {
               <Button
                 disabled={isLoading}
                 onClick={form.handleSubmit(onSubmit)}
+                data-testid="create-report-btn"
               >
                 {isLoading ? "Creating..." : "Create Report"}
               </Button>

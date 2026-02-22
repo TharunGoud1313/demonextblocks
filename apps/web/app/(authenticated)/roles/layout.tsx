@@ -16,23 +16,19 @@ export default function RolePageLayout({
           Set Roles, Pages and manager Users
         </p>
       </div>
-      <Tabs
-        defaultValue="roles"
-        value={pathname}
-        className="w-full md:w-96"
-      >
+      <Tabs defaultValue="roles" value={pathname} className="w-full md:w-96">
         <TabsList className="grid w-full grid-cols-3">
-          <Link href="/roles/">
+          <Link href="/roles/" data-testid="tab-roles">
             <TabsTrigger className="w-full" value="/roles">
               Roles
             </TabsTrigger>
           </Link>
-          <Link href="/roles/pages">
+          <Link href="/roles/pages" data-testid="tab-pages">
             <TabsTrigger className="w-full" value="/roles/pages">
               Pages
             </TabsTrigger>
           </Link>
-          <Link href="/roles/contacts">
+          <Link href="/roles/contacts" data-testid="tab-contacts">
             <TabsTrigger className="w-full" value="/roles/contacts">
               Contacts
             </TabsTrigger>

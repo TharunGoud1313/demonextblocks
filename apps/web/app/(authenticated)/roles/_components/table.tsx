@@ -33,7 +33,7 @@ interface RecordsTableProps {
   promises: Promise<
     [
       Awaited<ReturnType<typeof getRecords>>,
-      Awaited<ReturnType<typeof getDocumentCountByField>>
+      Awaited<ReturnType<typeof getDocumentCountByField>>,
     ]
   >;
 }
@@ -138,7 +138,7 @@ export function RecordsTable({ promises }: RecordsTableProps) {
       { value: "table", label: "Table View", component: null },
       { value: "card", label: "Card View", component: CardsView },
     ],
-    []
+    [],
   );
 
   const selectedViewOption = React.useMemo(() => {
@@ -175,6 +175,7 @@ export function RecordsTable({ promises }: RecordsTableProps) {
                 />
                 <Button
                   size="sm"
+                  data-testid="add-role-btn"
                   onClick={() =>
                     setRowAction({ row: {} as Row<RoleList>, type: "new" })
                   }
@@ -201,6 +202,7 @@ export function RecordsTable({ promises }: RecordsTableProps) {
                 />
                 <Button
                   size="sm"
+                  data-testid="add-role-btn"
                   onClick={() =>
                     setRowAction({ row: {} as Row<RoleList>, type: "new" })
                   }

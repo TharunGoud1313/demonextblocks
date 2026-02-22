@@ -34,7 +34,7 @@ interface ContactsTableProps {
   promises: Promise<
     [
       Awaited<ReturnType<typeof getRecords>>,
-      Awaited<ReturnType<typeof getDocumentCountByField>>
+      Awaited<ReturnType<typeof getDocumentCountByField>>,
     ]
   >;
 }
@@ -159,7 +159,7 @@ export function ContactsTable({ promises }: ContactsTableProps) {
       { value: "table", label: "Table View", component: null },
       { value: "card", label: "Card View", component: CardsView },
     ],
-    []
+    [],
   );
 
   const selectedViewOption = React.useMemo(() => {
@@ -196,6 +196,7 @@ export function ContactsTable({ promises }: ContactsTableProps) {
                 />
                 <Button
                   size="sm"
+                  data-testid="add-contact-btn"
                   onClick={() =>
                     setRowAction({ row: {} as Row<Contact>, type: "new" })
                   }
@@ -223,6 +224,7 @@ export function ContactsTable({ promises }: ContactsTableProps) {
                 />
                 <Button
                   size="sm"
+                  data-testid="add-contact-btn"
                   onClick={() =>
                     setRowAction({ row: {} as Row<Contact>, type: "new" })
                   }

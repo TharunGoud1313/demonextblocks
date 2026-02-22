@@ -24,7 +24,7 @@ jest.mock("@/components/ui/form", () => ({
   ),
   FormControl: ({ children }: any) => <div>{children}</div>,
   FormMessage: () => <div data-testid="form-message" />,
-}));
+}))
 jest.mock("@/components/ui/input", () => ({
   Input: (props: any) => <input {...props} />,
 }));
@@ -45,14 +45,7 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
-// Mock toast
-const toastMock = {
-  error: jest.fn(),
-  success: jest.fn(),
-};
-jest.mock("sonner", () => ({
-  toast: toastMock,
-}));
+
 
 // Mock actions
 jest.mock("../actions", () => ({

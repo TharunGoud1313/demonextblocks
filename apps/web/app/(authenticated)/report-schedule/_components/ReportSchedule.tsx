@@ -54,7 +54,7 @@ const ReportSchedule = () => {
   };
 
   return (
-    <div>
+    <div data-testid="report-schedule-page">
       <div className="flex items-center w-full gap-2.5">
         <div className="border w-full rounded-lg flex items-center gap-2.5">
           <Search className="text-muted-foreground ml-3" />
@@ -63,10 +63,11 @@ const ReportSchedule = () => {
             className="border-0"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            data-testid="search-reports-input"
           />
         </div>
         <Link href="/report-schedule/new">
-          <Button size="icon">
+          <Button size="icon" data-testid="add-report-btn">
             <Plus />
           </Button>
         </Link>
@@ -82,27 +83,45 @@ const ReportSchedule = () => {
         ) : (
           prompts
             .filter((prompt) =>
-              prompt?.title.toLowerCase().includes(search.toLowerCase())
+              prompt?.title.toLowerCase().includes(search.toLowerCase()),
             )
             .map((prompt) => (
-              <Card key={prompt.id} className=" my-3">
+              <Card
+                key={prompt.id}
+                className=" my-3"
+                data-testid={`report-card-${prompt.id}`}
+              >
                 <CardContent className="p-2.5">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <h2 className="text-lg font-semibold">{prompt.title}</h2>
-                      <Badge>{prompt.status}</Badge>
+                      <h2
+                        className="text-lg font-semibold"
+                        data-testid={`report-title-${prompt.id}`}
+                      >
+                        {prompt.title}
+                      </h2>
+                      <Badge data-testid={`report-status-${prompt.id}`}>
+                        {prompt.status}
+                      </Badge>
                     </div>
                     <div className="flex justify-between items-center">
-                      <p className="text-muted-foreground">
+                      <p
+                        className="text-muted-foreground"
+                        data-testid={`report-description-${prompt.id}`}
+                      >
                         {prompt.description}
                       </p>
                       <div className="flex items-center gap-2.5">
                         <Trash2
                           onClick={() => handleDelete(prompt.id)}
                           className="text-red-500 cursor-pointer h-5 w-5"
+                          data-testid={`delete-report-btn-${prompt.id}`}
                         />
                         <Link href={`/report-schedule/edit/${prompt.id}`}>
-                          <Edit className="w-5 h-5 text-muted-foreground" />
+                          <Edit
+                            className="w-5 h-5 text-muted-foreground"
+                            data-testid={`edit-report-btn-${prompt.id}`}
+                          />
                         </Link>
                       </div>
                     </div>
