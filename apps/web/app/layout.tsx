@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { DialogModel } from "@/components/modal/global-model";
 import NextTopLoader from "nextjs-toploader";
 import { SessionProvider } from "next-auth/react";
+import { EmailAgentProvider } from "@/context/EmailAgentContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -61,7 +62,9 @@ export default async function RootLayout({
             <SearchProvider>
               <SessionProvider>
                 <NextTopLoader />
+                <EmailAgentProvider>
                 {children}
+                </EmailAgentProvider>
               </SessionProvider>
             </SearchProvider>
           </ThemeProvider>
