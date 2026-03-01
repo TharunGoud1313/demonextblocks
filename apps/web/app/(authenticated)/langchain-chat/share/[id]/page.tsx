@@ -1,4 +1,4 @@
-import { ChatWindow } from "@/components/chat/ChatWindow";
+import { ChatWindow } from "@/components/lang-chat/ChatWindow";
 import React from "react";
 
 interface IndexProps {

@@ -1,4 +1,4 @@
-import { AssistantWindow } from "@/components/chat/AssistantChat/AssistantWindow";
+import { AssistantWindow } from "@/components/lang-chat/AssistantChat/AssistantWindow";
 
 interface IndexProps {
   params: Promise<{ id: string; chatId: string }>;

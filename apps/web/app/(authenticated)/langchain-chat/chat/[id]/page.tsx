@@ -1,5 +1,5 @@
-import { ChatWindow } from "@/components/chat/ChatWindow";
-import { GuideInfoBox } from "@/components/chat/GuideInfoBox";
+import { ChatWindow } from "@/components/lang-chat/ChatWindow";
+import { GuideInfoBox } from "@/components/lang-chat/GuideInfoBox";
 
 interface IndexProps {
   params: Promise<{ id: string }>;

@@ -1,4 +1,4 @@
-import { GuideInfoBox } from "@/components/chat/GuideInfoBox";
+import { GuideInfoBox } from "@/components/lang-chat/GuideInfoBox";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
