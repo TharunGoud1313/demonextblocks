@@ -59,7 +59,6 @@ import { EmojiPicker } from "@/components/ui/emoji-picker";
 import { FaFilePdf } from "react-icons/fa";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LocalNotifications } from "@capacitor/local-notifications";
 
 const socket = io(
   process.env.NODE_ENV === "development"
@@ -156,12 +155,7 @@ const ChatMessages = ({
     }
   }, [messages]);
 
-  useEffect(() => {
-    const requestPermissions = async () => {
-      await LocalNotifications.requestPermissions();
-    };
-    requestPermissions();
-  }, []);
+  
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -179,16 +173,7 @@ const ChatMessages = ({
           messageUniqueId: msg.id || msg.agentMsgId || uuidv4(),
         }));
         setMessages(normalizedMessages);
-        await LocalNotifications.schedule({
-          notifications: [
-            {
-              title: "New message received",
-              body: "normalizedMessages",
-              id: Math.floor(Date.now() % 100000),
-              schedule: { at: new Date(Date.now() + 500) },
-            },
-          ],
-        });
+        
       } catch (error) {
         toast.error("Failed to fetch messages");
       }
