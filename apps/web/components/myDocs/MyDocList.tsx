@@ -105,9 +105,9 @@ const MyDocList = () => {
                     <Link href={`/myDocs/edit/${doc.mydoc_list_id}`}>
                       <Edit className="h-5 w-5 text-muted-foreground stroke-[1.5] cursor-pointer hover:text-foreground" />
                     </Link>
-                    <Link href={`/myDocs/share/${doc.mydoc_list_id}`}>
+                    {/* <Link href={`/myDocs/share/${doc.mydoc_list_id}`}> */}
                       <Share2 className="h-5 w-5 text-muted-foreground stroke-[1.5] cursor-pointer hover:text-foreground" />
-                    </Link>
+                    {/* </Link> */}
                   </div>
                 </CardContent>
               </Card>

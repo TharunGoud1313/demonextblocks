@@ -54,6 +54,15 @@ const NewContact = ({
 
   useEffect(() => {
     if (data) {
+      // Set available states first based on the country from data
+      const selectedCountry = countries.find(
+        (c) => c.name === data.business_country,
+      );
+      if (selectedCountry) {
+        const countryStates = states[selectedCountry.code] || [];
+        setAvailableStates(countryStates);
+      }
+
       setFormData({
         firstName: data.first_name,
         lastName: data.last_name,
