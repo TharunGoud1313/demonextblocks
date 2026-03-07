@@ -117,12 +117,12 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
       setUploading(true);
       const newImages = Array.from(e.target.files);
       const validImages = newImages.filter(
-        (file) => file.size <= MAX_FILE_SIZE
+        (file) => file.size <= MAX_FILE_SIZE,
       );
 
       if (validImages.length !== newImages.length) {
         setUploadError(
-          "Some files were not added. Please ensure all files are images (JPG, PNG, or GIF) and under 5MB."
+          "Some files were not added. Please ensure all files are images (JPG, PNG, or GIF) and under 5MB.",
         );
       } else {
         setUploadError("");
@@ -204,7 +204,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
 
   const removeImage = (index: number) => {
     setImagePreviews((prevPreviews) =>
-      prevPreviews.filter((_, i) => i !== index)
+      prevPreviews.filter((_, i) => i !== index),
     );
   };
 
@@ -234,7 +234,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
 
       if (validFiles.length !== newFiles.length) {
         setUploadError(
-          "Some files were not added. Please ensure all files are  under 5MB."
+          "Some files were not added. Please ensure all files are  under 5MB.",
         );
       } else {
         setUploadError("");
@@ -323,7 +323,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
 
   const removeFile = (index: number) => {
     setFilePreviews((prevPreviews) =>
-      prevPreviews.filter((_, i) => i !== index)
+      prevPreviews.filter((_, i) => i !== index),
     );
   };
 
@@ -336,7 +336,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
 
       if (validFiles.length !== newFiles.length) {
         setUploadError(
-          "Some files were not added. Please ensure all files are  under 5MB."
+          "Some files were not added. Please ensure all files are  under 5MB.",
         );
       } else {
         setUploadError("");
@@ -421,7 +421,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
 
   const removePdf = (index: number) => {
     setPdfPreviews((prevPreviews) =>
-      prevPreviews.filter((_, i) => i !== index)
+      prevPreviews.filter((_, i) => i !== index),
     );
   };
 
@@ -430,7 +430,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
       setUploading(true);
       const newVideo = Array.from(e.target.files);
       const validVideo = newVideo.filter(
-        (video) => video.size <= MAX_VIDEO_SIZE
+        (video) => video.size <= MAX_VIDEO_SIZE,
       );
       if (validVideo.length !== newVideo.length) {
         setVideoUrl("");
@@ -518,7 +518,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
 
   const removeVideo = (index: number) => {
     setVideoPreviews((prevPreviews) =>
-      prevPreviews.filter((_, i) => i !== index)
+      prevPreviews.filter((_, i) => i !== index),
     );
   };
 
@@ -530,7 +530,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
 
       if (validMedia.length !== newMedia.length) {
         setUploadError(
-          "Some files were not added. Please ensure all files are images (JPG, PNG, or GIF) and under 5MB."
+          "Some files were not added. Please ensure all files are images (JPG, PNG, or GIF) and under 5MB.",
         );
       } else {
         setUploadError("");
@@ -646,7 +646,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
 
       const result = await response.json();
       const validApis = result.filter(
-        (item: any) => item?.test_status === "passed"
+        (item: any) => item?.test_status === "passed",
       );
       return validApis;
     } catch (error) {
@@ -708,14 +708,14 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
           setEditedField({
             ...editedField,
             placeholder_file_upload_url: data.map(
-              (item: any) => item[apiField]
+              (item: any) => item[apiField],
             )[0],
           });
         } else if (editedField?.variant === "Send Pdf") {
           setEditedField({
             ...editedField,
             placeholder_pdf_file_url: data.map(
-              (item: any) => item[apiField]
+              (item: any) => item[apiField],
             )[0],
           });
         } else if (
@@ -732,8 +732,8 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                 selectedValue === "Data card"
                   ? "Data card"
                   : selectedValue === "Chart card"
-                  ? "Chart card"
-                  : data.map((item: any) => item.card_type)[0],
+                    ? "Chart card"
+                    : data.map((item: any) => item.card_type)[0],
               card_json: data.map((item: any) => item.custom_json_one)[0],
             },
           });
@@ -777,7 +777,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
               description: "API URL is required",
               variant: "destructive",
             });
-            let error: any = document.getElementById("api_url_error_msg");
+            const error: any = document.getElementById("api_url_error_msg");
             error.textContent = "URL cannot be empty";
             setError(true);
             return;
@@ -787,7 +787,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
               description: "API URL Field required",
               variant: "destructive",
             });
-            let error: any = document.getElementById("api_field_error_msg");
+            const error: any = document.getElementById("api_field_error_msg");
             error.textContent = "Api cannot be empty";
             setError(true);
             return;
@@ -796,7 +796,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
       }
       if (editedField.name === "") {
         toast({ description: "Name cannot be empty", variant: "destructive" });
-        let error: any = document.getElementById("error_msg");
+        const error: any = document.getElementById("error_msg");
         error.textContent = "Name cannot be empty";
         setError(true);
         return;
@@ -811,7 +811,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
       setEditedField({
         ...editedField,
         options: editedField?.options?.filter(
-          (_: any, i: string | number) => i !== index
+          (_: any, i: string | number) => i !== index,
         ),
       });
     }
@@ -944,12 +944,12 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                               <div className="relative w-full">
                                 {videoPreviews[0].startsWith("http") ? (
                                   /(youtube\.com|youtu\.be)/.test(
-                                    videoPreviews[0]
+                                    videoPreviews[0],
                                   ) ? (
                                     <iframe
                                       src={videoPreviews[0].replace(
                                         "watch?v=",
-                                        "embed/"
+                                        "embed/",
                                       )}
                                       title="video-preview"
                                       className="h-64 w-full"
@@ -1522,7 +1522,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                                 setEditedField({
                                   ...editedField,
                                   combobox: editedField.combobox?.filter(
-                                    (_: any, i: any) => i !== index
+                                    (_: any, i: any) => i !== index,
                                   ),
                                 });
                               }
@@ -1581,7 +1581,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                             | Promise<React.AwaitedReactNode>
                             | null
                             | undefined,
-                          index: React.Key | null | undefined
+                          index: React.Key | null | undefined,
                         ) => (
                           <div
                             key={index}
@@ -1596,7 +1596,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                                     ...editedField,
                                     multiselect:
                                       editedField.multiselect?.filter(
-                                        (_: any, i: any) => i !== index
+                                        (_: any, i: any) => i !== index,
                                       ),
                                   });
                                 }
@@ -1605,7 +1605,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                               <X />
                             </span>
                           </div>
-                        )
+                        ),
                       )}
                     </div>
                   </div>
@@ -1658,7 +1658,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                             | Promise<React.AwaitedReactNode>
                             | null
                             | undefined,
-                          index: React.Key | null | undefined
+                          index: React.Key | null | undefined,
                         ) => (
                           <div
                             key={index}
@@ -1672,7 +1672,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                                   setEditedField({
                                     ...editedField,
                                     radiogroup: editedField.radiogroup?.filter(
-                                      (_: any, i: any) => i !== index
+                                      (_: any, i: any) => i !== index,
                                     ),
                                   });
                                 }
@@ -1681,7 +1681,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                               <X />
                             </span>
                           </div>
-                        )
+                        ),
                       )}
                     </div>
                   </div>
@@ -1842,8 +1842,8 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                             ...editedField.media_card_data,
                             card_type: value,
                           },
-                        }),
-                          setSelectedValue(value);
+                        });
+                        setSelectedValue(value);
                       }}
                     >
                       <SelectTrigger id="media-card">
@@ -1990,7 +1990,7 @@ export const EditFieldDialog: React.FC<EditFieldDialogProps> = ({
                     <Textarea
                       onChange={(e) => {
                         const parsedData = new Function(
-                          `return ${e.target.value}`
+                          `return ${e.target.value}`,
                         )();
                         setEditedField({
                           ...editedField,

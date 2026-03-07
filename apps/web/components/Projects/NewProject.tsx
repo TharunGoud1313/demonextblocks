@@ -133,7 +133,7 @@ const NewProject = ({
   };
 
   const validateForm = () => {
-    let newErrors: Record<string, string> = {};
+    const newErrors: Record<string, string> = {};
 
     const fields = [
       "planName",
@@ -189,7 +189,7 @@ const NewProject = ({
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
         },
         body: JSON.stringify(payload),
-      }
+      },
     );
     if (response.ok) {
       setIsLoading(false);

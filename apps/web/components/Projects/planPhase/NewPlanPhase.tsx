@@ -106,7 +106,7 @@ const NewPlanPhase = ({
   };
 
   const validateForm = () => {
-    let newErrors: Record<string, string> = {};
+    const newErrors: Record<string, string> = {};
 
     const fields = ["phaseName", "description", "start", "end", "status"];
 
@@ -158,7 +158,7 @@ const NewPlanPhase = ({
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
         },
         body: JSON.stringify(payload),
-      }
+      },
     );
     if (response.ok) {
       setIsLoading(false);
@@ -207,8 +207,8 @@ const NewPlanPhase = ({
               {isEdit
                 ? "Edit Plan Phase"
                 : isView
-                ? "View Plan Phase"
-                : "Add New Plan Phase"}
+                  ? "View Plan Phase"
+                  : "Add New Plan Phase"}
             </h1>
             <Link href={`/Projects/planPhase/${planData[0]?.plan_id}`}>
               <Button variant={"outline"} className="border-0">

@@ -29,8 +29,8 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import ExtractMetrices from "../../../../hooks/extract-metrics";
-import { useMetrics } from "../../../../hooks/MetricContext";
+import ExtractMetrices from "../../../hooks/extract-metrics";
+import { useMetrics } from "../../../hooks/MetricContext";
 import ExtractMetrics, {
   ExtractMetricJson,
 } from "@/components/AgentMaker/field-components/ExtractMetrics";

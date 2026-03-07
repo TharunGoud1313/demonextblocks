@@ -78,7 +78,7 @@ const NewChatContact = ({
   useEffect(() => {
     if (formData.country) {
       const selectedCountry = countries.find(
-        (c) => c.name === formData.country
+        (c) => c.name === formData.country,
       );
       if (selectedCountry) {
         const countryStates = states[selectedCountry.code] || [];
@@ -100,7 +100,7 @@ const NewChatContact = ({
   };
 
   const validateForm = () => {
-    let newErrors: Record<string, string> = {};
+    const newErrors: Record<string, string> = {};
 
     if (!formData.firstName || formData.firstName.trim() === "") {
       newErrors.firstName = "Required";
@@ -154,14 +154,14 @@ const NewChatContact = ({
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
         },
         body: JSON.stringify(payload),
-      }
+      },
     );
     if (response.ok) {
       setIsLoading(false);
       toast.success(
         isEdit
           ? "Contact updated successfully"
-          : "Contact created successfully"
+          : "Contact created successfully",
       );
 
       setFormData({
@@ -187,9 +187,7 @@ const NewChatContact = ({
     } else {
       setIsLoading(false);
       toast.error(
-        isEdit
-          ? "Failed to updated contact"
-          : "Failed to create contact"
+        isEdit ? "Failed to updated contact" : "Failed to create contact",
       );
     }
   };
@@ -219,8 +217,8 @@ const NewChatContact = ({
               {isEdit
                 ? "Edit Contact"
                 : isView
-                ? "View Contact"
-                : "Add New Contact"}
+                  ? "View Contact"
+                  : "Add New Contact"}
             </h1>
             <Link href="/Email">
               <Button variant={"outline"} className="border-0">

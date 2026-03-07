@@ -55,7 +55,7 @@ export function ConnectionTable() {
       test_status: "pending",
       api_method: "GET",
       test_data: '{\n  "key": "value"\n}',
-    }
+    },
   );
 
   React.useEffect(() => {
@@ -63,8 +63,8 @@ export function ConnectionTable() {
       Object.values(item).some(
         (value) =>
           typeof value === "string" &&
-          value.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+          value.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
     );
     setFilteredData(results);
   }, [searchTerm, data]);
@@ -98,7 +98,7 @@ export function ConnectionTable() {
   }, []);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setNewConnection({ ...newConnection, [e.target.name]: e.target.value });
   };
@@ -170,7 +170,7 @@ export function ConnectionTable() {
       headers.append("Content-Type", "application/json");
       headers.append(newConnection.key, newConnection.secret);
 
-      let requestOptions: RequestInit = {
+      const requestOptions: RequestInit = {
         method: newConnection.api_method,
         headers: headers,
       };
@@ -369,8 +369,8 @@ export function ConnectionTable() {
                       {isEditing
                         ? "Edit Connection"
                         : loading
-                        ? "Adding Connection..."
-                        : "Add Connection"}
+                          ? "Adding Connection..."
+                          : "Add Connection"}
                     </Button>
                     <Button
                       type="button"
@@ -425,8 +425,8 @@ export function ConnectionTable() {
                     item.test_status === "passed"
                       ? "default"
                       : item.test_status === "failed"
-                      ? "destructive"
-                      : "outline"
+                        ? "destructive"
+                        : "outline"
                   }
                 >
                   {item.test_status}

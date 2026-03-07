@@ -77,8 +77,8 @@ const ConnectionsNew = () => {
       Object.values(item).some(
         (value) =>
           typeof value === "string" &&
-          value.toLowerCase().includes(search.toLowerCase())
-      )
+          value.toLowerCase().includes(search.toLowerCase()),
+      ),
     );
     setFilteredData(results);
   }, [search, data]);
@@ -115,7 +115,7 @@ const ConnectionsNew = () => {
   }, []);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setNewConnection({ ...newConnection, [e.target.name]: e.target.value });
   };
@@ -129,7 +129,7 @@ const ConnectionsNew = () => {
   const handleDelete = async (id: string, fetchConnections: () => void) => {
     console.log("id----", id);
     const response = await axiosInstance.delete(
-      `${ADD_CONNECTIONS}?id=eq.${id}`
+      `${ADD_CONNECTIONS}?id=eq.${id}`,
     );
     fetchConnections();
     if (response.status === 200) {
@@ -201,7 +201,7 @@ const ConnectionsNew = () => {
       headers.append("Content-Type", "application/json");
       headers.append(connection.key, connection.secret);
 
-      let requestOptions: RequestInit = {
+      const requestOptions: RequestInit = {
         method: connection.api_method,
         headers: headers,
       };

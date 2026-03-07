@@ -16,7 +16,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { generateEmail } from "./actions";
 import { toast } from "@/components/ui/use-toast";
-import { useEmailAgentContext } from "@/contexts/EmailAgentContext";
+import { useEmailAgentContext } from "@/context/EmailAgentContext";
 import { Input } from "@/components/ui/input";
 import axiosInstance from "@/utils/axiosInstance";
 import { EMAIL_LIST_API } from "@/constants/envConfig";

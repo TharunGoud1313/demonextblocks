@@ -68,7 +68,7 @@ const NewConnections = ({
       };
       const response = await fetch(
         `${ADD_CONNECTIONS}?id=eq.${id}`,
-        requestOptions
+        requestOptions,
       );
       if (!response.ok) {
         throw new Error("Failed to fetch connection");
@@ -94,7 +94,7 @@ const NewConnections = ({
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setConnection({ ...connection, [e.target.name]: e.target.value });
   };
@@ -158,7 +158,7 @@ const NewConnections = ({
       headers.append("Content-Type", "application/json");
       headers.append(connection.key, connection.secret);
 
-      let requestOptions: RequestInit = {
+      const requestOptions: RequestInit = {
         method: connection.api_method,
         headers: headers,
       };

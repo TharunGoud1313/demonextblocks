@@ -118,7 +118,7 @@ const NewTask = ({
       const data = await response.json();
 
       const filteredData = data.filter(
-        (item: any) => item.business_number === session?.user?.business_number
+        (item: any) => item.business_number === session?.user?.business_number,
       );
       setPlanName(filteredData);
     };
@@ -163,7 +163,7 @@ const NewTask = ({
   };
 
   const validateForm = () => {
-    let newErrors: Record<string, string> = {};
+    const newErrors: Record<string, string> = {};
 
     const fields = [
       "taskTitle",
@@ -221,7 +221,7 @@ const NewTask = ({
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
         },
         body: JSON.stringify(payload),
-      }
+      },
     );
     if (response.ok) {
       setIsLoading(false);

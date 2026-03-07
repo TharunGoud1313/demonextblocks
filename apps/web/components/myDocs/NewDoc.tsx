@@ -296,7 +296,7 @@ const NewDocs = ({
   };
 
   const validateForm = () => {
-    let newErrors: Record<string, string> = {};
+    const newErrors: Record<string, string> = {};
 
     const fields = ["docGroup", "docName", "description", "status"];
 

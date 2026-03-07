@@ -108,7 +108,7 @@ function SortableItem({
 
       const result = await response.json();
       const validApis = result.filter(
-        (item: any) => item?.test_status === "passed"
+        (item: any) => item?.test_status === "passed",
       );
       return validApis;
     } catch (error) {
@@ -126,7 +126,7 @@ function SortableItem({
 
     const validApis = await fetchValidApi();
     const isValid = validApis.filter(
-      (item: any) => item.api_url === chat_apiEndpoint
+      (item: any) => item.api_url === chat_apiEndpoint,
     );
 
     if (isValid.length === 0) {
@@ -167,11 +167,11 @@ function SortableItem({
           filterData = data;
         } else if (apiDataFilter === "get-business-api-data") {
           filterData = data.filter(
-            (item: any) => item.customer === session?.user?.business_name
+            (item: any) => item.customer === session?.user?.business_name,
           );
         } else if (apiDataFilter === "get-user-api-data") {
           filterData = data.filter(
-            (item: any) => item.user_name === session?.user?.email
+            (item: any) => item.user_name === session?.user?.email,
           );
         }
 
@@ -207,10 +207,10 @@ function SortableItem({
 
   const handleSave = () => {
     const isValidAPi = validApi.filter(
-      (item: any) => item?.api_url === editedEntry?.metricApi
+      (item: any) => item?.api_url === editedEntry?.metricApi,
     );
     const isValidStoryApi = validApi.filter(
-      (item: any) => item?.api_url === editedEntry?.storyApi
+      (item: any) => item?.api_url === editedEntry?.storyApi,
     );
     if (editedEntry.metricApiEnabled && !(isValidAPi?.length > 0)) {
       toast({ description: "Invalid API URL", variant: "destructive" });
@@ -256,7 +256,7 @@ function SortableItem({
                 html: editedEntry.html,
                 json: editedEntry.json,
               }
-            : button
+            : button,
         ),
       },
     });
@@ -760,7 +760,7 @@ function NewEntryForm({
     : null;
 
   const validateField = (name: string, value: any) => {
-    let fieldErrors: ValidationErrors = {};
+    const fieldErrors: ValidationErrors = {};
 
     switch (name) {
       case "buttonText":
@@ -796,13 +796,13 @@ function NewEntryForm({
 
   const validateForm = () => {
     const isValidAPi = validApi.filter(
-      (item: any) => item?.api_url === newEntry?.metricApi
+      (item: any) => item?.api_url === newEntry?.metricApi,
     );
     const isValidStoryApi = validApi.filter(
-      (item: any) => item?.api_url === newEntry?.storyApi
+      (item: any) => item?.api_url === newEntry?.storyApi,
     );
 
-    let formErrors: ValidationErrors = {};
+    const formErrors: ValidationErrors = {};
 
     // Validate button text
     if (!newEntry.buttonText) {
@@ -813,7 +813,7 @@ function NewEntryForm({
       });
     } else if (
       existingButtons.some(
-        (button) => button.buttonText === newEntry.buttonText
+        (button) => button.buttonText === newEntry.buttonText,
       )
     ) {
       formErrors.buttonText = "Button text must be unique";
@@ -919,7 +919,7 @@ function NewEntryForm({
 
       const result = await response.json();
       const validApis = result.filter(
-        (item: any) => item?.test_status === "passed"
+        (item: any) => item?.test_status === "passed",
       );
       return validApis;
     } catch (error) {
@@ -937,7 +937,7 @@ function NewEntryForm({
 
     const validApis = await fetchValidApi();
     const isValid = validApis.filter(
-      (item: any) => item.api_url === apiEndpoint
+      (item: any) => item.api_url === apiEndpoint,
     );
 
     if (isValid.length === 0) {
@@ -998,7 +998,7 @@ function NewEntryForm({
 
     const validApis = await fetchValidApi();
     const isValid = validApis.filter(
-      (item: any) => item.api_url === chat_apiEndpoint
+      (item: any) => item.api_url === chat_apiEndpoint,
     );
 
     if (isValid.length === 0) {
@@ -1039,11 +1039,11 @@ function NewEntryForm({
           filterData = data;
         } else if (apiDataFilter === "get-business-api-data") {
           filterData = data.filter(
-            (item: any) => item.customer === session?.user?.business_name
+            (item: any) => item.customer === session?.user?.business_name,
           );
         } else if (apiDataFilter === "get-user-api-data") {
           filterData = data.filter(
-            (item: any) => item.user_name === session?.user?.email
+            (item: any) => item.user_name === session?.user?.email,
           );
         }
 
@@ -1430,7 +1430,7 @@ export default function ChatwithDataActions({
         automationName: button.automationName || "",
         html: button.html || "",
         json: button.json || "",
-      })
+      }),
     );
   });
   const [showNewEntryForm, setShowNewEntryForm] = useState(false);
@@ -1464,7 +1464,7 @@ export default function ChatwithDataActions({
           automationName: button.automationName || "",
           html: button.html || "",
           json: button.json || "",
-        })
+        }),
       );
       setEntries(updatedEntries);
     }
@@ -1552,8 +1552,8 @@ export default function ChatwithDataActions({
   const handleSaveEdit = (updatedEntry: FormEntry) => {
     setEntries(
       entries.map((entry) =>
-        entry.id === updatedEntry.id ? updatedEntry : entry
-      )
+        entry.id === updatedEntry.id ? updatedEntry : entry,
+      ),
     );
 
     // Update the 'buttons' array with the edited entry data
@@ -1590,7 +1590,7 @@ export default function ChatwithDataActions({
                 html: updatedEntry.html,
                 json: updatedEntry.json,
               }
-            : button
+            : button,
         ),
       },
     });

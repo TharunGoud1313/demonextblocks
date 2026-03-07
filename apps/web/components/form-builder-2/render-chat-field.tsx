@@ -153,7 +153,7 @@ const RenderInputField = ({
   const [timePickerDate, setTimePickerDate] = useState<Date>(new Date());
   const [fromTime, setFromTime] = useState<Date>(new Date());
   const [toTime, setToTime] = useState<Date>(
-    new Date(new Date().setHours(new Date().getHours() + 1))
+    new Date(new Date().setHours(new Date().getHours() + 1)),
   );
   const [fromDate, setFromDate] = useState<Date>();
   const [toDate, setToDate] = useState<Date>();
@@ -214,7 +214,7 @@ const RenderInputField = ({
       preference: value,
     }));
     const selectedItem = currentField.chat_with_data?.buttons?.find(
-      (item: any) => item?.button_text === value
+      (item: any) => item?.button_text === value,
     );
     if (selectedItem) {
       setComponentName(selectedItem);
@@ -241,7 +241,7 @@ const RenderInputField = ({
     if (e.target.files) {
       const newVideo = Array.from(e.target.files);
       const validVideo = newVideo.filter(
-        (video) => video.size <= MAX_VIDEO_SIZE
+        (video) => video.size <= MAX_VIDEO_SIZE,
       );
       if (validVideo.length !== newVideo.length) {
         setVideoError("No video selected");
@@ -263,7 +263,7 @@ const RenderInputField = ({
       /^(https?:\/\/.*\.(mp4|mov|avi|mkv|webm))|(https?:\/\/(www\.)?youtube\.com\/watch\?v=\w+)|(https?:\/\/youtu\.be\/\w+)/;
     if (!validUrlPattern.test(videoUrl)) {
       setVideoError(
-        "Invalid video URL. Please provide a direct video link or YouTube link."
+        "Invalid video URL. Please provide a direct video link or YouTube link.",
       );
       return;
     }
@@ -277,19 +277,19 @@ const RenderInputField = ({
 
       // Validate image size
       const validImages = newImages.filter(
-        (image) => image.size <= MAX_IMAGE_SIZE // Replace `MAX_IMAGE_SIZE` with your desired size limit in bytes
+        (image) => image.size <= MAX_IMAGE_SIZE, // Replace `MAX_IMAGE_SIZE` with your desired size limit in bytes
       );
 
       if (validImages.length !== newImages.length) {
         setImageError(
-          "Some images were not uploaded. Please ensure all images are under the size limit."
+          "Some images were not uploaded. Please ensure all images are under the size limit.",
         );
         return;
       }
 
       // Generate previews for valid images
       const newPreviews = validImages.map((image) =>
-        URL.createObjectURL(image)
+        URL.createObjectURL(image),
       );
 
       // Update state
@@ -363,12 +363,12 @@ const RenderInputField = ({
       // Validate image size
       const validFiles = newFiles.filter(
         (file) =>
-          ALLOWED_FILES_TYPES.includes(file.type) && file.size <= MAX_FILE_SIZE // Replace `MAX_IMAGE_SIZE` with your desired size limit in bytes
+          ALLOWED_FILES_TYPES.includes(file.type) && file.size <= MAX_FILE_SIZE, // Replace `MAX_IMAGE_SIZE` with your desired size limit in bytes
       );
 
       if (validFiles.length !== newFiles.length) {
         setFileError(
-          "Some Files were not uploaded. Please ensure all files are under the size limit."
+          "Some Files were not uploaded. Please ensure all files are under the size limit.",
         );
         return;
       }
@@ -392,12 +392,12 @@ const RenderInputField = ({
       // Validate image size
       const validFiles = newFiles.filter(
         (file) =>
-          ALLOWED_PDF_TYPES.includes(file.type) && file.size <= MAX_FILE_SIZE // Replace `MAX_IMAGE_SIZE` with your desired size limit in bytes
+          ALLOWED_PDF_TYPES.includes(file.type) && file.size <= MAX_FILE_SIZE, // Replace `MAX_IMAGE_SIZE` with your desired size limit in bytes
       );
 
       if (validFiles.length !== newFiles.length) {
         setFileError(
-          "Some Files were not uploaded. Please ensure all files are under the size limit."
+          "Some Files were not uploaded. Please ensure all files are under the size limit.",
         );
         return;
       }
@@ -565,7 +565,7 @@ const RenderInputField = ({
                     variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal",
-                      !fromDate && "text-muted-foreground"
+                      !fromDate && "text-muted-foreground",
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -596,7 +596,7 @@ const RenderInputField = ({
                     variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal",
-                      !toDate && "text-muted-foreground"
+                      !toDate && "text-muted-foreground",
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -612,7 +612,7 @@ const RenderInputField = ({
                       setInput(
                         `From ${
                           fromDate ? format(fromDate, "yyyy-MM-dd") : "N/A"
-                        } to ${newDate ? format(newDate, "yyyy-MM-dd") : "N/A"}`
+                        } to ${newDate ? format(newDate, "yyyy-MM-dd") : "N/A"}`,
                       );
                     }}
                     initialFocus
@@ -744,8 +744,10 @@ const RenderInputField = ({
                 ...prev,
                 [currentField.name]: value,
               }));
-              {
-                value ? setInput("on") : setInput("off");
+              if (value) {
+                setInput("on");
+              } else {
+                setInput("off");
               }
             }}
             className="text-white"
@@ -781,8 +783,8 @@ const RenderInputField = ({
                           e.stopPropagation();
                           setSelectedImage((prevImages: any) =>
                             prevImages.filter(
-                              (_: any, index: number) => index !== 0
-                            )
+                              (_: any, index: number) => index !== 0,
+                            ),
                           );
                         }}
                         className="absolute top-2 right-2 z-10"
@@ -854,8 +856,8 @@ const RenderInputField = ({
                           e.stopPropagation();
                           setSelectedFile((prevImages: any) =>
                             prevImages.filter(
-                              (_: any, index: number) => index !== 0
-                            )
+                              (_: any, index: number) => index !== 0,
+                            ),
                           );
                         }}
                         className="absolute top-2 right-2"
@@ -929,8 +931,8 @@ const RenderInputField = ({
                           e.stopPropagation();
                           setSelectedPdf((prevImages: any) =>
                             prevImages.filter(
-                              (_: any, index: number) => index !== 0
-                            )
+                              (_: any, index: number) => index !== 0,
+                            ),
                           );
                         }}
                         className="absolute top-2 right-2"
@@ -1022,8 +1024,8 @@ const RenderInputField = ({
                           e.stopPropagation();
                           setVideos((prevImages: any) =>
                             prevImages.filter(
-                              (_: any, index: number) => index !== 0
-                            )
+                              (_: any, index: number) => index !== 0,
+                            ),
                           );
                         }}
                         className="absolute top-2 right-2 z-10"
@@ -1137,15 +1139,15 @@ const RenderInputField = ({
                       {currentField?.placeholder_video_url ? (
                         <>
                           {currentField?.placeholder_video_url.startsWith(
-                            "http"
+                            "http",
                           ) ? (
                             /(youtube\.com|youtu\.be)/.test(
-                              currentField?.placeholder_video_url
+                              currentField?.placeholder_video_url,
                             ) ? (
                               <iframe
                                 src={currentField?.placeholder_video_url.replace(
                                   "watch?v=",
-                                  "embed/"
+                                  "embed/",
                                 )}
                                 title="video-preview"
                                 className="h-64 w-full"
@@ -1214,7 +1216,7 @@ const RenderInputField = ({
                             {getFileIcon(
                               currentField?.placeholder_file_upload_url
                                 ?.split("/")
-                                .at(-1)
+                                .at(-1),
                             )}
                           </div>
                           <div className="text-sm w-[200px] text-wrap p-2 flex flex-wrap text-primary truncate md:max-w-[80%]">
@@ -1323,7 +1325,7 @@ const RenderInputField = ({
               role="combobox"
               className={cn(
                 "w-full justify-between",
-                !currentField.value && "text-muted-foreground"
+                !currentField.value && "text-muted-foreground",
               )}
             >
               {value
@@ -1352,7 +1354,7 @@ const RenderInputField = ({
                           "mr-2 h-4 w-4",
                           item === currentField.value
                             ? "opacity-100"
-                            : "opacity-0"
+                            : "opacity-0",
                         )}
                       />
                       {item}
@@ -1424,7 +1426,7 @@ const RenderInputField = ({
       );
     case "Progress":
       const timer = setTimeout(() => setInput("50"), 500);
-      () => clearTimeout(timer);
+      clearTimeout(timer);
       return (
         <div>
           <p>{currentField.label}</p>
@@ -1517,7 +1519,7 @@ const RenderInputField = ({
                 window.open(
                   iframeUrl || (currentField.value as string),
                   "_blank",
-                  "noopener,noreferrer"
+                  "noopener,noreferrer",
                 )
               }
             >
@@ -1616,7 +1618,7 @@ const RenderInputField = ({
                       <RadioGroupItem value={item?.button_text} id={index} />
                       <Label htmlFor={index}>{item?.button_text}</Label>
                     </div>
-                  ) : null
+                  ) : null,
               )}
             </div>
           </RadioGroup>

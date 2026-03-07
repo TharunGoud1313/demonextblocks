@@ -94,10 +94,10 @@ const NewTask = ({
       }
       const data = await response.json();
 
-      const filteredData = data.filter(
-        (item: any) => item.business_number === session?.user?.business_number
-      );
-      setPlanName(filteredData);
+      // const filteredData = data.filter(
+      //   (item: any) => item.business_number === session?.user?.business_number
+      // );
+      setPlanName(data);
     };
     fetchPlanName();
   }, [session]);
@@ -140,7 +140,7 @@ const NewTask = ({
   };
 
   const validateForm = () => {
-    let newErrors: Record<string, string> = {};
+    const newErrors: Record<string, string> = {};
 
     const fields = [
       "taskTitle",
@@ -197,7 +197,7 @@ const NewTask = ({
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
         },
         body: JSON.stringify(payload),
-      }
+      },
     );
     if (response.ok) {
       setIsLoading(false);
@@ -286,13 +286,13 @@ const NewTask = ({
                 value={formData.planName}
                 onValueChange={(value) => {
                   const selectedPlan = planName.find(
-                    (item: any) => item.plan_name === value
+                    (item: any) => item.plan_name === value,
                   );
                   handleSelectChange(value, "planName");
                   if (selectedPlan) {
                     handleSelectChange(
                       selectedPlan.plan_id.toString(),
-                      "planId"
+                      "planId",
                     );
                   }
                 }}

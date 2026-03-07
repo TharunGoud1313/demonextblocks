@@ -292,7 +292,7 @@ const NewProjectChat = ({
   };
 
   const validateForm = () => {
-    let newErrors: Record<string, string> = {};
+    const newErrors: Record<string, string> = {};
 
     const fields = ["date", "msgGroup", "to", "subject", "body", "status"];
 
@@ -319,7 +319,7 @@ const NewProjectChat = ({
       plan_id: plan.find((item) => item.plan_name === formData.plan)?.plan_id,
       plan_name: formData.plan,
       plan_phase_id: phase.find(
-        (item) => item.plan_phase_name === formData.phase
+        (item) => item.plan_phase_name === formData.phase,
       )?.plan_phase_id,
       plan_phase_name: formData.phase,
       task_id: taskTitle.find((item) => item.task_title === formData.taskTitle)
@@ -353,7 +353,7 @@ const NewProjectChat = ({
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
         },
         body: JSON.stringify(payload),
-      }
+      },
     );
     if (response.ok) {
       setIsLoading(false);
@@ -630,8 +630,8 @@ const NewProjectChat = ({
                   Array.isArray(formData.cc)
                     ? formData.cc
                     : typeof formData.cc === "string" && formData.cc
-                    ? formData?.cc?.split(",")
-                    : []
+                      ? formData?.cc?.split(",")
+                      : []
                 }
                 onValuesChange={(values: string[]) =>
                   handleSelectChange(values.join(","), "cc")

@@ -32,7 +32,7 @@ const StyledBarChart: React.FC<BarChartProps> = ({
 
       // Initialize processing variables
       const valueMap = new Map<string, number>();
-      let maxItems = 10;
+      const maxItems = 10;
 
       // Process each data item
       inputData.forEach((item) => {
@@ -63,7 +63,7 @@ const StyledBarChart: React.FC<BarChartProps> = ({
 
       return sortedData;
     },
-    [dataKey]
+    [dataKey],
   );
 
   const chartData = React.useMemo(() => {

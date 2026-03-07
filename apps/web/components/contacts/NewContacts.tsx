@@ -102,7 +102,7 @@ const NewContact = ({
   };
 
   const validateForm = () => {
-    let newErrors: Record<string, string> = {};
+    const newErrors: Record<string, string> = {};
 
     const fields = [
       "firstName",

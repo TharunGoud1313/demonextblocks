@@ -189,7 +189,7 @@ const ChatwithData = ({
       const data = await response.json();
       if (data.length > 0) {
         const existingUser = data.find(
-          (user: any) => user?.email === session?.user?.email
+          (user: any) => user?.email === session?.user?.email,
         );
 
         setUserChatSession(existingUser);
@@ -222,7 +222,7 @@ const ChatwithData = ({
           "Content-Type": "application/json",
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
         },
-      }
+      },
     );
     if (!response.ok) {
       toast({
@@ -233,7 +233,7 @@ const ChatwithData = ({
     }
     const data = await response.json();
     const filteredData = data.filter(
-      (item: any) => item.user_id == userChatSession?.id
+      (item: any) => item.user_id == userChatSession?.id,
     );
     setHistory(filteredData);
   };
@@ -258,7 +258,7 @@ const ChatwithData = ({
               "Content-Type": "application/json",
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
             },
-          }
+          },
         );
 
         if (!response.ok) {
@@ -272,7 +272,7 @@ const ChatwithData = ({
         const data = await response.json();
 
         const filteredData = data.filter(
-          (item: any) => item.user_id == userChatSession.id
+          (item: any) => item.user_id == userChatSession.id,
         );
 
         setBookmarks(filteredData);
@@ -302,7 +302,7 @@ const ChatwithData = ({
               "Content-Type": "application/json",
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
             },
-          }
+          },
         );
 
         if (!response.ok) {
@@ -316,7 +316,7 @@ const ChatwithData = ({
         const data = await response.json();
 
         const filteredData = data.filter(
-          (item: any) => item.user_id == userChatSession.id
+          (item: any) => item.user_id == userChatSession.id,
         );
 
         setFavorites(filteredData);
@@ -344,7 +344,7 @@ const ChatwithData = ({
               "Content-Type": "application/json",
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
             },
-          }
+          },
         );
         if (!response.ok) {
           toast({
@@ -372,7 +372,7 @@ const ChatwithData = ({
             response_data_json: msg.response_data_json,
             chartconfig: msg.chartconfig,
             columns: msg.columns,
-          }))
+          })),
         );
       };
       fetchMessages();
@@ -418,7 +418,7 @@ const ChatwithData = ({
             "Content-Type": "application/json",
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
           },
-        }
+        },
       );
       const data = await response.json();
       setChatData(data);
@@ -478,7 +478,7 @@ const ChatwithData = ({
               "Content-Type": "application/json",
               Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
             },
-          }
+          },
         );
 
         if (fetchChatResponse.ok) {
@@ -496,7 +496,7 @@ const ChatwithData = ({
                 body: JSON.stringify({
                   title: `Draft ${chatData[0].chatId}`,
                 }),
-              }
+              },
             );
           }
         }
@@ -527,12 +527,12 @@ const ChatwithData = ({
       setMessages((prev) => [...prev, userMessage]);
 
       // Generate and process data
-      let dataFilter = "";
+      const dataFilter = "";
       const query = await generateQuery(
         prompt,
         session,
         dataFilter,
-        projectData[0]
+        projectData[0],
       );
       if (query === undefined) {
         toast({
@@ -620,7 +620,7 @@ const ChatwithData = ({
           body: JSON.stringify({
             title: editedTitle,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -660,8 +660,8 @@ const ChatwithData = ({
                 ...msg,
                 favorite: newFavoriteStatus,
               }
-            : msg
-        )
+            : msg,
+        ),
       );
 
       const response = await fetch(
@@ -677,7 +677,7 @@ const ChatwithData = ({
             favorite: newFavoriteStatus,
             plan_id: projectData[0]?.plan_id,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -685,8 +685,8 @@ const ChatwithData = ({
           prev.map((msg) =>
             msg.id === message.id
               ? { ...msg, favorite: !newFavoriteStatus }
-              : msg
-          )
+              : msg,
+          ),
         );
         toast({
           description: "Failed to update favorite status",
@@ -772,7 +772,7 @@ const ChatwithData = ({
           body: JSON.stringify({
             bookmark: newBookmarkStatus,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -813,8 +813,8 @@ const ChatwithData = ({
       // Update the message in the local state first for immediate UI feedback
       setMessages((prev) =>
         prev.map((msg) =>
-          msg.id === message.id ? { ...msg, isLike: feedback } : msg
-        )
+          msg.id === message.id ? { ...msg, isLike: feedback } : msg,
+        ),
       );
 
       const response = await fetch(
@@ -829,14 +829,14 @@ const ChatwithData = ({
           body: JSON.stringify({
             isLike: feedback,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === message.id ? { ...msg, isLike: !feedback } : msg
-          )
+            msg.id === message.id ? { ...msg, isLike: !feedback } : msg,
+          ),
         );
         toast({
           description: "Failed to update feedback status",
