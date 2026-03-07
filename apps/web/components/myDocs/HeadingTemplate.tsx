@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-
-import RcTiptapEditor from "reactjs-tiptap-editor";
-import { BaseKit, Heading } from "reactjs-tiptap-editor";
-
-import "katex/dist/katex.min.css";
-
-import "reactjs-tiptap-editor/style.css";
+import React, { useMemo } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Heading from "@tiptap/extension-heading";
+import Placeholder from "@tiptap/extension-placeholder";
+import TipTapMenuBar from "../ui/RichTextEditors/TipTapMenuBar";
+import "../ui/RichTextEditors/tiptap-styles.css";
 
 interface HeadingTemplateProps {
   content: string;
@@ -20,33 +19,55 @@ export default function HeadingTemplate({
   onContentChange,
   readOnly,
 }: HeadingTemplateProps) {
-  const [theme, setTheme] = useState("light");
-
   const extensions = useMemo(
     () => [
-      BaseKit.configure({
-        multiColumn: true,
-        placeholder: {
-          showOnlyCurrent: true,
-        },
+      StarterKit.configure({
+        heading: false,
       }),
-      Heading.configure({ spacer: true }),
+      Heading.configure({
+        levels: [1, 2, 3, 4, 5, 6],
+      }),
+      Placeholder.configure({
+        placeholder: "Start typing your heading...",
+      }),
     ],
     [],
   );
 
+  const editor = useEditor({
+    extensions,
+    content,
+    editable: !readOnly,
+    immediatelyRender: false,
+    onUpdate: ({ editor }) => {
+      onContentChange(editor.getHTML());
+    },
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-base dark:prose-invert max-w-none focus:outline-none",
+      },
+    },
+  });
+
   return (
     <main className="">
       <div className="max-w-[1024px] mx-auto">
-        <RcTiptapEditor
-          //   ref={refEditor}
-          output="html"
-          content={content}
-          onChangeContent={onContentChange}
-          extensions={extensions}
-          dark={theme === "dark"}
-          disabled={readOnly}
-        />
+        <div className="tiptap-editor">
+          {!readOnly && (
+            <TipTapMenuBar
+              editor={editor}
+              showHeadings={true}
+              showFormatting={false}
+              showLists={false}
+              showAlignment={false}
+              showTable={false}
+              showMedia={false}
+              showHistory={true}
+            />
+          )}
+          <EditorContent editor={editor} />
+        </div>
       </div>
     </main>
   );

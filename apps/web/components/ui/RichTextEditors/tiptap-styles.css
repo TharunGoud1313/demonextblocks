@@ -1,0 +1,162 @@
+/* TipTap Editor Styles */
+.tiptap-editor {
+  @apply border rounded-md;
+}
+
+.tiptap-editor .ProseMirror {
+  @apply p-4 min-h-[150px] outline-none;
+}
+
+.tiptap-editor .ProseMirror:focus {
+  @apply outline-none;
+}
+
+.tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
+  @apply text-muted-foreground pointer-events-none float-left h-0;
+  content: attr(data-placeholder);
+}
+
+/* Headings */
+.tiptap-editor .ProseMirror h1 {
+  @apply text-3xl font-bold mt-4 mb-2;
+}
+
+.tiptap-editor .ProseMirror h2 {
+  @apply text-2xl font-bold mt-3 mb-2;
+}
+
+.tiptap-editor .ProseMirror h3 {
+  @apply text-xl font-semibold mt-2 mb-1;
+}
+
+.tiptap-editor .ProseMirror h4 {
+  @apply text-lg font-semibold mt-2 mb-1;
+}
+
+.tiptap-editor .ProseMirror h5 {
+  @apply text-base font-medium mt-1 mb-1;
+}
+
+.tiptap-editor .ProseMirror h6 {
+  @apply text-sm font-medium mt-1 mb-1;
+}
+
+/* Lists */
+.tiptap-editor .ProseMirror ul {
+  @apply list-disc pl-6 my-2;
+}
+
+.tiptap-editor .ProseMirror ol {
+  @apply list-decimal pl-6 my-2;
+}
+
+.tiptap-editor .ProseMirror li {
+  @apply my-1;
+}
+
+/* Task lists */
+.tiptap-editor .ProseMirror ul[data-type="taskList"] {
+  @apply list-none pl-0;
+}
+
+.tiptap-editor .ProseMirror ul[data-type="taskList"] li {
+  @apply flex items-start gap-2;
+}
+
+.tiptap-editor .ProseMirror ul[data-type="taskList"] li label {
+  @apply flex-shrink-0 mt-1;
+}
+
+/* Blockquote */
+.tiptap-editor .ProseMirror blockquote {
+  @apply border-l-4 border-primary pl-4 italic my-4;
+}
+
+/* Code */
+.tiptap-editor .ProseMirror code {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.tiptap-editor .ProseMirror pre {
+  @apply bg-muted p-4 rounded-md my-4 overflow-x-auto;
+}
+
+.tiptap-editor .ProseMirror pre code {
+  @apply bg-transparent p-0;
+}
+
+/* Links */
+.tiptap-editor .ProseMirror a {
+  @apply text-primary underline cursor-pointer;
+}
+
+/* Images */
+.tiptap-editor .ProseMirror img {
+  @apply max-w-full h-auto rounded-md my-4;
+}
+
+.tiptap-editor .ProseMirror img.ProseMirror-selectednode {
+  @apply ring-2 ring-primary;
+}
+
+/* Tables */
+.tiptap-editor .ProseMirror table {
+  @apply w-full border-collapse my-4;
+}
+
+.tiptap-editor .ProseMirror table th,
+.tiptap-editor .ProseMirror table td {
+  @apply border border-border p-2 text-left;
+}
+
+.tiptap-editor .ProseMirror table th {
+  @apply bg-muted font-semibold;
+}
+
+.tiptap-editor .ProseMirror table tr:nth-child(even) {
+  @apply bg-muted/50;
+}
+
+.tiptap-editor .ProseMirror .selectedCell {
+  @apply bg-primary/10;
+}
+
+/* Horizontal rule */
+.tiptap-editor .ProseMirror hr {
+  @apply border-t border-border my-4;
+}
+
+/* Highlight */
+.tiptap-editor .ProseMirror mark {
+  @apply bg-yellow-200 dark:bg-yellow-800 px-0.5;
+}
+
+/* Toolbar */
+.tiptap-toolbar {
+  @apply flex flex-wrap gap-1 p-2 border-b bg-muted/50;
+}
+
+.tiptap-toolbar button {
+  @apply p-2 rounded hover:bg-muted transition-colors;
+}
+
+.tiptap-toolbar button.is-active {
+  @apply bg-muted text-primary;
+}
+
+.tiptap-toolbar button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* Video/YouTube embed */
+.tiptap-editor .ProseMirror iframe {
+  @apply w-full aspect-video rounded-md my-4;
+}
+
+.tiptap-editor .ProseMirror div[data-youtube-video] {
+  @apply w-full my-4;
+}
+
+.tiptap-editor .ProseMirror div[data-youtube-video] iframe {
+  @apply rounded-md;
+}

@@ -1,26 +1,13 @@
 "use client";
 
-import React, { useCallback, useState, useMemo } from "react";
-
-import RcTiptapEditor from "reactjs-tiptap-editor";
-import { BaseKit, Video } from "reactjs-tiptap-editor";
-
-import "katex/dist/katex.min.css";
-
-import "reactjs-tiptap-editor/style.css";
-import { toast } from "../ui/use-toast";
-
-function convertBase64ToBlob(base64: string) {
-  const arr = base64.split(",");
-  const mime = arr[0].match(/:(.*?);/)![1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new Blob([u8arr], { type: mime });
-}
+import React, { useMemo, useCallback } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Youtube from "@tiptap/extension-youtube";
+import Placeholder from "@tiptap/extension-placeholder";
+import { Button } from "../ui/button";
+import { Youtube as YoutubeIcon } from "lucide-react";
+import "../ui/RichTextEditors/tiptap-styles.css";
 
 interface VideoTemplateProps {
   content: string;
@@ -33,46 +20,64 @@ export default function VideoTemplate({
   onContentChange,
   readOnly,
 }: VideoTemplateProps) {
-  const [theme, setTheme] = useState("light");
-  const [disable, setDisable] = useState(false);
-
   const extensions = useMemo(
     () => [
-      BaseKit.configure({
-        multiColumn: true,
-        placeholder: {
-          showOnlyCurrent: true,
-        },
-        characterCount: {
-          limit: 50_000,
-        },
+      StarterKit,
+      Youtube.configure({
+        width: 640,
+        height: 360,
+        nocookie: true,
       }),
-      Video.configure({
-        upload: (files: File) => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(URL.createObjectURL(files));
-            }, 500);
-          });
-        },
+      Placeholder.configure({
+        placeholder: "Click to add a YouTube video...",
       }),
     ],
     [],
   );
 
+  const editor = useEditor({
+    extensions,
+    content,
+    editable: !readOnly,
+    immediatelyRender: false,
+    onUpdate: ({ editor }) => {
+      onContentChange(editor.getHTML());
+    },
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-base dark:prose-invert max-w-none focus:outline-none",
+      },
+    },
+  });
+
+  const addYouTubeVideo = useCallback(() => {
+    if (!editor) return;
+    const url = window.prompt("YouTube URL");
+    if (url) {
+      editor.chain().focus().setYoutubeVideo({ src: url }).run();
+    }
+  }, [editor]);
+
   return (
     <main className="">
       <div className="max-w-[1024px] mx-auto">
-        <RcTiptapEditor
-          //   ref={refEditor}
-          output="html"
-          content={content}
-          onChangeContent={onContentChange}
-          extensions={extensions}
-          dark={theme === "dark"}
-          disabled={readOnly}
-          //   disabled={disable}
-        />
+        <div className="tiptap-editor">
+          {!readOnly && (
+            <div className="flex gap-2 p-2 border-b bg-muted/50 rounded-t-md">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={addYouTubeVideo}
+              >
+                <YoutubeIcon className="h-4 w-4 mr-2" />
+                Add YouTube Video
+              </Button>
+            </div>
+          )}
+          <EditorContent editor={editor} />
+        </div>
       </div>
     </main>
   );

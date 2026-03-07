@@ -1,141 +1,105 @@
 "use client";
 
-import React, { useCallback, useState, useMemo } from "react";
-
-import RcTiptapEditor, {
-  BaseKit,
-  Blockquote,
-  Bold,
-  BulletList,
-  Clear,
-  Code,
-  CodeBlock,
-  Color,
-  ColumnActionButton,
-  Emoji,
-  ExportPdf,
-  ExportWord,
-  FontFamily,
-  FontSize,
-  FormatPainter,
-  Heading,
-  Highlight,
-  History,
-  HorizontalRule,
-  Iframe,
-  Image,
-  ImportWord,
-  Indent,
-  Italic,
-  Katex,
-  LineHeight,
-  Link,
-  MoreMark,
-  OrderedList,
-  SearchAndReplace,
-  SlashCommand,
-  Strike,
-  Table,
-  TaskList,
-  TextAlign,
-  Underline,
-  Video,
-  TableOfContents,
-  Excalidraw,
-  TextDirection,
-  Mention,
-  Attachment,
-  ImageGif,
-  Mermaid,
-  Twitter,
-} from "reactjs-tiptap-editor";
-
-import "katex/dist/katex.min.css";
-
-import "reactjs-tiptap-editor/style.css";
-import { Input } from "../input";
+import React, { useMemo, useCallback } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import Placeholder from "@tiptap/extension-placeholder";
 import { Button } from "../button";
-import { Settings } from "lucide-react";
-import { FormSettingsModal } from "../../form-builder-2/form-settings-modal";
-import { toast } from "../use-toast";
+import { ImageIcon, Upload } from "lucide-react";
+import "./tiptap-styles.css";
 
-function convertBase64ToBlob(base64: string) {
-  const arr = base64.split(",");
-  const mime = arr[0].match(/:(.*?);/)![1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new Blob([u8arr], { type: mime });
+interface ImageEditorProps {
+  content?: string;
+  onContentChange?: (content: string) => void;
+  readOnly?: boolean;
+  placeholder?: string;
 }
 
-export default function ImageEditor() {
-  const [content, setContent] = useState("");
-  const [formInput, setFormInput] = useState("");
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const refEditor = React.useRef<any>(null);
-
-  const [theme, setTheme] = useState("light");
-  const [disable, setDisable] = useState(false);
-
+export default function ImageEditor({
+  content = "",
+  onContentChange,
+  readOnly = false,
+  placeholder = "Click to add an image...",
+}: ImageEditorProps) {
   const extensions = useMemo(
     () => [
-      BaseKit.configure({
-        multiColumn: true,
-        placeholder: {
-          showOnlyCurrent: true,
-        },
-        characterCount: {
-          limit: 50_000,
-        },
-      }),
+      StarterKit,
       Image.configure({
-        upload: (files: File) => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(URL.createObjectURL(files));
-            }, 500);
-          });
-        },
+        inline: false,
+        allowBase64: true,
+      }),
+      Placeholder.configure({
+        placeholder,
       }),
     ],
-    [],
+    [placeholder],
   );
 
-  const onValueChange = (value: any) => {
-    setContent(value);
-  };
+  const editor = useEditor({
+    extensions,
+    content,
+    editable: !readOnly,
+    immediatelyRender: false,
+    onUpdate: ({ editor }) => {
+      onContentChange?.(editor.getHTML());
+    },
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-base dark:prose-invert max-w-none focus:outline-none",
+      },
+    },
+  });
 
-  const handleSave = () => {
-    const isContentEmpty =
-      !content || content.replace(/<[^>]*>/g, "").trim() === "";
-
-    if (!formInput || isContentEmpty) {
-      toast({
-        description: "Please enter both document name and content",
-        variant: "destructive",
-      });
-      return;
+  const addImage = useCallback(() => {
+    if (!editor) return;
+    const url = window.prompt("Image URL");
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
     }
+  }, [editor]);
 
-    console.log("data", { formInput, content });
-  };
+  const handleFileUpload = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file && editor) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const result = e.target?.result as string;
+          editor.chain().focus().setImage({ src: result }).run();
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+    [editor],
+  );
 
   return (
-    <main className="">
-      <div className="max-w-[1024px] mx-auto">
-        <RcTiptapEditor
-          //   ref={refEditor}
-          output="html"
-          content={content}
-          onChangeContent={onValueChange}
-          extensions={extensions}
-          dark={theme === "dark"}
-          //   disabled={disable}
-        />
-      </div>
-    </main>
+    <div className="tiptap-editor">
+      {!readOnly && (
+        <div className="flex gap-2 p-2 border-b bg-muted/50 rounded-t-md">
+          <Button type="button" variant="outline" size="sm" onClick={addImage}>
+            <ImageIcon className="h-4 w-4 mr-2" />
+            Add Image URL
+          </Button>
+          <label>
+            <Button type="button" variant="outline" size="sm" asChild>
+              <span>
+                <Upload className="h-4 w-4 mr-2" />
+                Upload Image
+              </span>
+            </Button>
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileUpload}
+            />
+          </label>
+        </div>
+      )}
+      <EditorContent editor={editor} />
+    </div>
   );
 }

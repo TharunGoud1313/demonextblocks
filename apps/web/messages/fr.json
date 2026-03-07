@@ -10,5 +10,10 @@
     "te": "Telugu",
     "hi": "Hindi",
     "label": "Language"
-  }
+  },
+  "Table": "Tableau",
+  "Heading": "Titre",
+  "Rich Text Editor": "Éditeur de texte enrichi",
+  "Image": "Image",
+  "Video": "Vidéo"
 }

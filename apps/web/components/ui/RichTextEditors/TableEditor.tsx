@@ -1,118 +1,76 @@
 "use client";
 
-import React, { useCallback, useState, useMemo } from "react";
+import React, { useMemo } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
+import Placeholder from "@tiptap/extension-placeholder";
+import TipTapMenuBar from "./TipTapMenuBar";
+import "./tiptap-styles.css";
 
-import RcTiptapEditor, {
-  BaseKit,
-  Blockquote,
-  Bold,
-  BulletList,
-  Clear,
-  Code,
-  CodeBlock,
-  Color,
-  ColumnActionButton,
-  Emoji,
-  ExportPdf,
-  ExportWord,
-  FontFamily,
-  FontSize,
-  FormatPainter,
-  Heading,
-  Highlight,
-  History,
-  HorizontalRule,
-  Iframe,
-  Image,
-  ImportWord,
-  Indent,
-  Italic,
-  Katex,
-  LineHeight,
-  Link,
-  MoreMark,
-  OrderedList,
-  SearchAndReplace,
-  SlashCommand,
-  Strike,
-  Table,
-} from "reactjs-tiptap-editor";
-
-import "katex/dist/katex.min.css";
-
-import "reactjs-tiptap-editor/style.css";
-import { Input } from "../input";
-import { Button } from "../button";
-import { Settings } from "lucide-react";
-import { FormSettingsModal } from "../../form-builder-2/form-settings-modal";
-import { toast } from "../use-toast";
-
-function convertBase64ToBlob(base64: string) {
-  const arr = base64.split(",");
-  const mime = arr[0].match(/:(.*?);/)![1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new Blob([u8arr], { type: mime });
+interface TableEditorProps {
+  content?: string;
+  onContentChange?: (content: string) => void;
+  readOnly?: boolean;
+  placeholder?: string;
 }
 
-export default function TableEditor() {
-  const [content, setContent] = useState("");
-  const [formInput, setFormInput] = useState("");
-
-  const [theme, setTheme] = useState("light");
-
+export default function TableEditor({
+  content = "",
+  onContentChange,
+  readOnly = false,
+  placeholder = "Click the table button to insert a table...",
+}: TableEditorProps) {
   const extensions = useMemo(
     () => [
-      BaseKit.configure({
-        multiColumn: true,
-        placeholder: {
-          showOnlyCurrent: true,
-        },
-        characterCount: {
-          limit: 50_000,
-        },
+      StarterKit,
+      Table.configure({
+        resizable: true,
       }),
-      Table,
+      TableRow,
+      TableCell,
+      TableHeader,
+      Placeholder.configure({
+        placeholder,
+      }),
     ],
-    [],
+    [placeholder],
   );
 
-  const onValueChange = (value: any) => {
-    setContent(value);
-  };
-
-  const handleSave = () => {
-    const isContentEmpty =
-      !content || content.replace(/<[^>]*>/g, "").trim() === "";
-
-    if (!formInput || isContentEmpty) {
-      toast({
-        description: "Please enter both document name and content",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    console.log("data", { formInput, content });
-  };
+  const editor = useEditor({
+    extensions,
+    content,
+    editable: !readOnly,
+    immediatelyRender: false,
+    onUpdate: ({ editor }) => {
+      onContentChange?.(editor.getHTML());
+    },
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-base dark:prose-invert max-w-none focus:outline-none",
+      },
+    },
+  });
 
   return (
-    <main className="">
-      <div className="max-w-[1024px] mx-auto">
-        <RcTiptapEditor
-          //   ref={refEditor}
-          output="html"
-          content={content}
-          onChangeContent={onValueChange}
-          extensions={extensions}
-          dark={theme === "dark"}
-          //   disabled={disable}
+    <div className="tiptap-editor">
+      {!readOnly && (
+        <TipTapMenuBar
+          editor={editor}
+          showHeadings={false}
+          showFormatting={true}
+          showLists={false}
+          showAlignment={false}
+          showTable={true}
+          showMedia={false}
+          showHistory={true}
         />
-      </div>
-    </main>
+      )}
+      <EditorContent editor={editor} />
+    </div>
   );
 }

@@ -1,65 +1,72 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Heading from "@tiptap/extension-heading";
+import Placeholder from "@tiptap/extension-placeholder";
+import TipTapMenuBar from "./TipTapMenuBar";
+import "./tiptap-styles.css";
 
-import RcTiptapEditor, { BaseKit, Heading } from "reactjs-tiptap-editor";
+interface HeadingEditorProps {
+  content?: string;
+  onContentChange?: (content: string) => void;
+  readOnly?: boolean;
+  placeholder?: string;
+}
 
-import "katex/dist/katex.min.css";
-
-import "reactjs-tiptap-editor/style.css";
-import { toast } from "../use-toast";
-
-export default function HeadingEditor() {
-  const [content, setContent] = useState("");
-  const [formInput, setFormInput] = useState("");
-
-  const [theme, setTheme] = useState("light");
-
+export default function HeadingEditor({
+  content = "",
+  onContentChange,
+  readOnly = false,
+  placeholder = "Start typing your heading...",
+}: HeadingEditorProps) {
   const extensions = useMemo(
     () => [
-      BaseKit.configure({
-        multiColumn: true,
-        placeholder: {
-          showOnlyCurrent: true,
-        },
+      StarterKit.configure({
+        heading: false,
       }),
-      Heading.configure({ spacer: true }),
+      Heading.configure({
+        levels: [1, 2, 3, 4, 5, 6],
+      }),
+      Placeholder.configure({
+        placeholder,
+      }),
     ],
-    [],
+    [placeholder],
   );
 
-  const onValueChange = (value: any) => {
-    setContent(value);
-  };
-
-  const handleSave = () => {
-    const isContentEmpty =
-      !content || content.replace(/<[^>]*>/g, "").trim() === "";
-
-    if (!formInput || isContentEmpty) {
-      toast({
-        description: "Please enter both document name and content",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    console.log("data", { formInput, content });
-  };
+  const editor = useEditor({
+    extensions,
+    content,
+    editable: !readOnly,
+    immediatelyRender: false,
+    onUpdate: ({ editor }) => {
+      onContentChange?.(editor.getHTML());
+    },
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-base dark:prose-invert max-w-none focus:outline-none",
+      },
+    },
+  });
 
   return (
-    <main className="">
-      <div className="max-w-[1024px] mx-auto">
-        <RcTiptapEditor
-          //   ref={refEditor}
-          output="html"
-          content={content}
-          onChangeContent={onValueChange}
-          extensions={extensions}
-          dark={theme === "dark"}
-          //   disabled={disable}
+    <div className="tiptap-editor">
+      {!readOnly && (
+        <TipTapMenuBar
+          editor={editor}
+          showHeadings={true}
+          showFormatting={false}
+          showLists={false}
+          showAlignment={false}
+          showTable={false}
+          showMedia={false}
+          showHistory={true}
         />
-      </div>
-    </main>
+      )}
+      <EditorContent editor={editor} />
+    </div>
   );
 }

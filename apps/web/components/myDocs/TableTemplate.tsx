@@ -1,25 +1,15 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-
-import RcTiptapEditor from "reactjs-tiptap-editor";
-import { BaseKit, Table } from "reactjs-tiptap-editor";
-
-import "katex/dist/katex.min.css";
-
-import "reactjs-tiptap-editor/style.css";
-
-function convertBase64ToBlob(base64: string) {
-  const arr = base64.split(",");
-  const mime = arr[0].match(/:(.*?);/)![1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new Blob([u8arr], { type: mime });
-}
+import React, { useMemo } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
+import Placeholder from "@tiptap/extension-placeholder";
+import TipTapMenuBar from "../ui/RichTextEditors/TipTapMenuBar";
+import "../ui/RichTextEditors/tiptap-styles.css";
 
 interface TableTemplateProps {
   content: string;
@@ -32,38 +22,56 @@ export default function TableTemplate({
   onContentChange,
   readOnly,
 }: TableTemplateProps) {
-  const [theme, setTheme] = useState("light");
-
   const extensions = useMemo(
     () => [
-      BaseKit.configure({
-        multiColumn: true,
-        placeholder: {
-          showOnlyCurrent: true,
-        },
-        characterCount: {
-          limit: 50_000,
-        },
+      StarterKit,
+      Table.configure({
+        resizable: true,
       }),
-      Table,
+      TableRow,
+      TableCell,
+      TableHeader,
+      Placeholder.configure({
+        placeholder: "Click the table button to insert a table...",
+      }),
     ],
     [],
   );
 
+  const editor = useEditor({
+    extensions,
+    content,
+    editable: !readOnly,
+    immediatelyRender: false,
+    onUpdate: ({ editor }) => {
+      onContentChange(editor.getHTML());
+    },
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-base dark:prose-invert max-w-none focus:outline-none",
+      },
+    },
+  });
+
   return (
     <main className="">
       <div className="max-w-[1024px] mx-auto">
-        <RcTiptapEditor
-          //   ref={refEditor}
-          output="html"
-          content={content}
-          onChangeContent={onContentChange}
-          extensions={extensions}
-          dark={theme === "dark"}
-          disabled={readOnly}
-          disableBubble={readOnly}
-          //   disabled={disable}
-        />
+        <div className="tiptap-editor">
+          {!readOnly && (
+            <TipTapMenuBar
+              editor={editor}
+              showHeadings={false}
+              showFormatting={true}
+              showLists={false}
+              showAlignment={false}
+              showTable={true}
+              showMedia={false}
+              showHistory={true}
+            />
+          )}
+          <EditorContent editor={editor} />
+        </div>
       </div>
     </main>
   );

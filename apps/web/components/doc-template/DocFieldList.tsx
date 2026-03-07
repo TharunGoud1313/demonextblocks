@@ -22,7 +22,7 @@ export const FormFieldList: React.FC<FormFieldListProps> = ({
   openEditDialog,
 }) => {
   const [rowTabs, setRowTabs] = useState<{ [key: number]: FormFieldType[] }>(
-    {}
+    {},
   );
 
   const handleHorizontalReorder = useCallback(
@@ -38,12 +38,13 @@ export const FormFieldList: React.FC<FormFieldListProps> = ({
         });
       }, 1000);
     },
-    [setFormFields]
+    [setFormFields],
   );
 
   return (
     <div className="mt-3 lg:mt-0">
       <Reorder.Group
+        as="div"
         axis="y"
         onReorder={setFormFields}
         values={formFields}
@@ -51,6 +52,7 @@ export const FormFieldList: React.FC<FormFieldListProps> = ({
       >
         {formFields.map((item, index) => (
           <Reorder.Item
+            as="div"
             key={
               Array.isArray(item)
                 ? item.map((f) => f.name).join("-")
@@ -63,7 +65,7 @@ export const FormFieldList: React.FC<FormFieldListProps> = ({
             <Grip className="cursor-grab w-5 h-5" />
             {Array.isArray(item) ? (
               <Reorder.Group
-                as="ul"
+                as="div"
                 axis="x"
                 onReorder={(newOrder) =>
                   handleHorizontalReorder(index, newOrder)

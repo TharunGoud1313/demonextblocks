@@ -72,6 +72,7 @@ export const FieldItem = ({
 
   return (
     <Reorder.Item
+      as="div"
       value={field}
       id={field.name}
       initial={{ opacity: 0, y: 30 }}
