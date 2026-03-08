@@ -78,7 +78,7 @@ const Contacts = () => {
             {data
               .filter((item: any) => {
                 const searchTerm = search.toLowerCase();
-                return item.user_name.toLowerCase().includes(searchTerm);
+                return item.user_name && item?.user_name.toLowerCase().includes(searchTerm);
                 //   item.business_name.toLowerCase().includes(searchTerm)
               })
               .map((item: any) => (

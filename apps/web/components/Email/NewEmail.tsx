@@ -234,8 +234,9 @@ const NewEmail = ({
         const response = await axiosInstance.get(CREATE_IMAP_DETAILS_URL);
 
         const filteredData = response.data.filter(
-          (item: any) => item.user_email === session?.user?.email
+          (item: any) => item.user_email === session?.user?.user_email
         );
+        console.log("data----", response.data)
         setSettingsData(filteredData);
       } catch (error) {
         console.log("error------", error);
@@ -280,13 +281,13 @@ const NewEmail = ({
   useEffect(() => {
     const fetchTemplateList = async () => {
       const response = await axiosInstance.get(EMAIL_LIST_API);
-      const templateList = response.data?.filter((item: any) => item.template);
-
+      const templateList = response.data
+      console.log("templateList----", response.data);
       const filteredTemplatesList = templateList.filter(
         (template: any) =>
-          template?.to_user_email.includes(session?.user?.email) ||
-          template?.cc_emails.includes(session?.user?.email) ||
-          template?.bcc_emails.includes(session?.user?.email)
+          template?.to_user_email.includes(session?.user?.user_email) ||
+          template?.cc_emails.includes(session?.user?.user_email) ||
+          template?.bcc_emails.includes(session?.user?.user_email)
       );
       setTemplateList(filteredTemplatesList);
     };
@@ -792,9 +793,11 @@ const NewEmail = ({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Avatar>
-                      <AvatarFallback>
-                        {displayedEmail?.sender_email.charAt(0).toUpperCase()}
-                      </AvatarFallback>
+                        <AvatarFallback>
+                        {displayedEmail?.sender_email
+                          ?.charAt(0)
+                          ?.toUpperCase() || "U"}
+                        </AvatarFallback>
                     </Avatar>
                     {displayedEmail?.cc_emails?.length > 0 && (
                       <div className="flex items-center gap-2">

@@ -76,7 +76,7 @@ const EmailList = () => {
       const response = await axiosInstance.get(EMAIL_LIST_API);
       const filterUserEmails = response.data?.filter(
         (email: any) =>
-          email?.to_user_email.includes(session?.user?.email) ||
+          email?.to_user_email.includes(session?.user?.user_email) ||
           (email?.created_user_id == session?.user?.id &&
             email?.is_sync === true)
       );
@@ -122,49 +122,49 @@ const EmailList = () => {
       switch (item) {
         case "Inbox":
           return (
-            email?.to_user_email.includes(session?.user?.email) ||
+            email?.to_user_email.includes(session?.user?.user_email) ||
             (email?.created_user_id == session?.user?.id &&
               email?.is_sync === true)
           );
         case "Sent":
           return (
-            email?.from_user_email.includes(session?.user?.email) ||
+            email?.from_user_email.includes(session?.user?.user_email) ||
             (email?.created_user_id == session?.user?.id &&
               email?.is_sync !== true)
           );
         case "Important":
           return (
-            email?.to_user_email.includes(session?.user?.email) &&
+            email?.to_user_email.includes(session?.user?.user_email) &&
             email?.is_important
           );
         case "Favorites":
           return (
-            email?.to_user_email.includes(session?.user?.email) &&
+            email?.to_user_email.includes(session?.user?.user_email) &&
             email?.is_starred
           );
         case "Alerts":
           return (
-            email?.to_user_email.includes(session?.user?.email) &&
+            email?.to_user_email.includes(session?.user?.user_email) &&
             email?.is_alert
           );
         case "Draft":
           return (
-            email?.to_user_email.includes(session?.user?.email) &&
+            email?.to_user_email.includes(session?.user?.user_email) &&
             email?.is_draft
           );
         case "Archive":
           return (
-            email?.to_user_email.includes(session?.user?.email) &&
+            email?.to_user_email.includes(session?.user?.user_email) &&
             email?.is_archive
           );
         case "Templates":
           return (
-            email?.to_user_email.includes(session?.user?.email) &&
+            email?.to_user_email.includes(session?.user?.user_email) &&
             email?.template
           );
         case "Unread":
           return (
-            email?.to_user_email.includes(session?.user?.email) &&
+            email?.to_user_email.includes(session?.user?.user_email) &&
             !email?.is_read
           );
         default:
